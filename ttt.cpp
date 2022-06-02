@@ -81,16 +81,16 @@ int TTT::evaluate(char **b)
 
 int TTT::calculate_score(char **board)
 {
-//     for (char i = 0; i < boardSize; i++)
-//     {
-//         cout << "{";
-//         for (char j = 0; j < boardSize; j++)
-//         {
-//             cout << " |" << board[i][j] << "| ";
-//         }
-//         cout << "}\n";
-//     }
-//     cout << "\n________________________________\n";
+    //     for (char i = 0; i < boardSize; i++)
+    //     {
+    //         cout << "{";
+    //         for (char j = 0; j < boardSize; j++)
+    //         {
+    //             cout << " |" << board[i][j] << "| ";
+    //         }
+    //         cout << "}\n";
+    //     }
+    //     cout << "\n________________________________\n";
     int tmpBoard[boardSize][boardSize];
     for (char i = 0; i < boardSize; i++)
     {
@@ -221,20 +221,78 @@ bool TTT::check_vertical(char **board, char symbol)
     return false;
 }
 
+bool TTT::checkArrays(char **win, char **diagonal, int j){
+
+}
+
+bool TTT::check_diagonal(char **board, char symbol){
+        // '''
+        // Checks the diagonal axis to see if there is a winner
+        // '''
+        char win[rowWinLength];
+        for (int i=0;i<rowWinLength;i++)
+            win[i]=symbol;
+        char diagonal[boardSize+rowWinLength];
+        for (int i=0;i<rowWinLength+boardSize;i++)
+            diagonal[i]=symbol;
+
+        for (int i=0;i<(boardSize- rowWinLength+1);i++){
+
+            int x = i;
+            int y = 0;
+            int idx=0;
+            for(int j=0;j<boardSize-i;j++){
+                diagonal[idx]=board[x][y];
+                x += 1;
+                y += 1;
+                }
+            for (int j=0;j<sizeof(diagonal)-sizeof(win)+1;j++){
+                if (win == diagonal[j + Board.get_row_win()]:
+                    return True
+            }
+            }
+            diagonal = []
+            x = 0
+            y = i
+            for(int j=0;j<boardSize-i;j++)
+                diagonal.append(board[x][y])
+                x += 1
+                y += 1
+            for j in range(len(diagonal) - len(win) + 1):
+                if win == diagonal[j:j + Board.get_row_win()]:
+                    return True
+
+            diagonal = []
+            x = Board.get_board_size() - 1 - i
+            y = 0
+            for(int j=0;j<boardSize-i;j++)
+                diagonal.append(board[x][y])
+                x -= 1
+                y += 1
+            for j in range(len(diagonal) - len(win) + 1):
+                if win == diagonal[j:j + Board.get_row_win()]:
+                    return True
+
+            diagonal = []
+            x = Board.get_board_size() - 1
+            y = 0 + i
+            for(int j=0;j<boardSize-i;j++)
+                diagonal.append(board[x][y])
+                x -= 1
+                y += 1
+            for j in range(len(diagonal) - len(win) + 1):
+                if win == diagonal[j:j + Board.get_row_win()]:
+                    return True
+}
+}
 // This is the minimax function. It considers all
 // the possible ways the game can go and returns
 // the value of the board
 int TTT::minimax(char **board, int depth, bool isMax)
 {
-    bool playerWon=false;
-    bool opponentWon=false;
-    if (isMax)
-        playerWon = check_win(board, player);
-    else
-        opponentWon = check_win(board, opponent);
-    if (playerWon)
+    if (check_win(board, player))
         return -pow(10, 8);
-    if (opponentWon)
+    if (check_win(board, opponent))
         return pow(10, 8);
 
     // int score = evaluate(board);
@@ -251,8 +309,10 @@ int TTT::minimax(char **board, int depth, bool isMax)
 
     // // If there are no more moves and no winner then
     // // it is a tie
-    if (isMovesLeft(board) == false)
-        return 0;
+    if (isMovesLeft(board) == false || depth == -1)
+    {
+        return calculate_score(board);
+    }
     // else
     //     return score;
 
@@ -323,18 +383,18 @@ Move TTT::findBestMove(char **board)
     bestMove.row = -1;
     bestMove.col = -1;
 
-    char **cpyBoard = new char *[boardSize];
+    // char **cpyBoard = new char *[boardSize];
 
-    for (char i = 0; i < boardSize; i++)
-        cpyBoard[i] = new char[boardSize];
+    // for (char i = 0; i < boardSize; i++)
+    //     cpyBoard[i] = new char[boardSize];
 
-    for (int i = 0; i < boardSize; i++)
-    {
-        for (int j = 0; j < boardSize; j++)
-        {
-            cpyBoard[i][j] = board[i][j];
-        }
-    }
+    // for (int i = 0; i < boardSize; i++)
+    // {
+    //     for (int j = 0; j < boardSize; j++)
+    //     {
+    //         cpyBoard[i][j] = board[i][j];
+    //     }
+    // }
 
     // Traverse all cells, evaluate minimax function for
     // all empty cells. And return the cell with optimal
@@ -351,7 +411,7 @@ Move TTT::findBestMove(char **board)
 
                 // compute evaluation function for this
                 // move.
-                int moveVal = minimax(cpyBoard, 0, true);
+                int moveVal = minimax(board, 0, true);
 
                 // Undo the move
                 board[i][j] = '_';
