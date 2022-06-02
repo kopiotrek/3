@@ -1,0 +1,5 @@
+make main.o -f /home/pk/Documents/PAMSI/3/makefile -C /home/pk/Documents/PAMSI/3/ --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/pk/Documents/PAMSI/3'
+g++ -c -g main.cpp
+make: Leaving directory '/home/pk/Documents/PAMSI/3'
+ 

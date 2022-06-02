@@ -1,0 +1,21 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/pk/Documents/PAMSI/3",
+            "binaryPath": "/home/pk/Documents/PAMSI/3/main.out",
+            "binaryArgs": []
+        }
+    ],
+    "files.associations": {
+        "array": "cpp",
+        "bitset": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "regex": "cpp",
+        "utility": "cpp",
+        "valarray": "cpp",
+        "new": "cpp",
+        "iostream": "cpp",
+        "random": "cpp"
+    }
+}
