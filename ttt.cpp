@@ -192,10 +192,18 @@ bool TTT::check_horizontal(char **board, char symbol)
 
 bool TTT::check_win(char **board, char symbol)
 {
-    if (check_horizontal(board, symbol) || check_vertical(board, symbol))
+    // if (check_horizontal(board, symbol) || check_vertical(board, symbol) || check_diagonal(board, symbol))
+    //     return true;
+    // else
+    //     return false;
+    if (check_horizontal(board, symbol))
         return true;
-    else
-        return false;
+    if (check_vertical(board, symbol))
+        return true;
+    if (check_diagonal(board, symbol))
+        return true;
+
+    return false;
 }
 
 bool TTT::check_vertical(char **board, char symbol)
@@ -221,70 +229,100 @@ bool TTT::check_vertical(char **board, char symbol)
     return false;
 }
 
-bool TTT::checkArrays(char **win, char **diagonal, int j){
-
+bool TTT::checkArrays(char *win, char *diagonal, int j)
+{
+    char diagonalTMP[3];
+    diagonalTMP[0] = diagonal[j];
+    diagonalTMP[1] = diagonal[j + 1];
+    diagonalTMP[2] = diagonal[j + 2];
+    for (int i = 0; i < rowWinLength; i++)
+    {
+        if (!(win[i] == diagonalTMP[i]))
+            return false;
+    }
+    return true;
 }
 
-bool TTT::check_diagonal(char **board, char symbol){
-        // '''
-        // Checks the diagonal axis to see if there is a winner
-        // '''
-        char win[rowWinLength];
-        for (int i=0;i<rowWinLength;i++)
-            win[i]=symbol;
-        char diagonal[boardSize+rowWinLength];
-        for (int i=0;i<rowWinLength+boardSize;i++)
-            diagonal[i]=symbol;
+bool TTT::check_diagonal(char **board, char symbol)
+{
+    // '''
+    // Checks the diagonal axis to see if there is a winner
+    // '''
+    char win[rowWinLength];
+    for (int i = 0; i < rowWinLength; i++)
+        win[i] = symbol;
+    char diagonal[boardSize + rowWinLength];
 
-        for (int i=0;i<(boardSize- rowWinLength+1);i++){
+    int x;
+    int y;
+    int idx;
 
-            int x = i;
-            int y = 0;
-            int idx=0;
-            for(int j=0;j<boardSize-i;j++){
-                diagonal[idx]=board[x][y];
-                x += 1;
-                y += 1;
-                }
-            for (int j=0;j<sizeof(diagonal)-sizeof(win)+1;j++){
-                if (win == diagonal[j + Board.get_row_win()]:
-                    return True
-            }
-            }
-            diagonal = []
-            x = 0
-            y = i
-            for(int j=0;j<boardSize-i;j++)
-                diagonal.append(board[x][y])
-                x += 1
-                y += 1
-            for j in range(len(diagonal) - len(win) + 1):
-                if win == diagonal[j:j + Board.get_row_win()]:
-                    return True
+    for (int i = 0; i < (boardSize - rowWinLength + 1); i++)
+    {
 
-            diagonal = []
-            x = Board.get_board_size() - 1 - i
-            y = 0
-            for(int j=0;j<boardSize-i;j++)
-                diagonal.append(board[x][y])
-                x -= 1
-                y += 1
-            for j in range(len(diagonal) - len(win) + 1):
-                if win == diagonal[j:j + Board.get_row_win()]:
-                    return True
+        x = i;
+        y = 0;
+        idx = 0;
+        for (int j = 0; j < boardSize - i; j++)
+        {
+            diagonal[idx] = board[x][y];
+            idx++;
+            x += 1;
+            y += 1;
+        }
+        for (int j = 0; j < sizeof(diagonal) - sizeof(win) + 1; j++)
+        {
+            if (checkArrays(win, diagonal, j))
+                return true;
+        }
 
-            diagonal = []
-            x = Board.get_board_size() - 1
-            y = 0 + i
-            for(int j=0;j<boardSize-i;j++)
-                diagonal.append(board[x][y])
-                x -= 1
-                y += 1
-            for j in range(len(diagonal) - len(win) + 1):
-                if win == diagonal[j:j + Board.get_row_win()]:
-                    return True
+        x = 0;
+        y = i;
+        for (int j = 0; j < boardSize - i; j++)
+        {
+            diagonal[idx] = board[x][y];
+            idx++;
+            x += 1;
+            y += 1;
+        }
+        for (int j = 0; j < sizeof(diagonal) - sizeof(win) + 1; j++)
+        {
+            if (checkArrays(win, diagonal, j))
+                return true;
+        }
+
+        x = boardSize - 1 - i;
+        y = 0;
+        for (int j = 0; j < boardSize - i; j++)
+        {
+            diagonal[idx] = board[x][y];
+            idx++;
+            x -= 1;
+            y += 1;
+        }
+        for (int j = 0; j < sizeof(diagonal) - sizeof(win) + 1; j++)
+        {
+            if (checkArrays(win, diagonal, j))
+                return true;
+        }
+
+        x = boardSize - 1;
+        y = 0 + i;
+        for (int j = 0; j < boardSize - i; j++)
+        {
+            diagonal[idx] = board[x][y];
+            idx++;
+            x -= 1;
+            y += 1;
+        }
+        for (int j = 0; j < sizeof(diagonal) - sizeof(win) + 1; j++)
+        {
+            if (checkArrays(win, diagonal, j))
+                return true;
+        }
+    }
 }
-}
+
 // This is the minimax function. It considers all
 // the possible ways the game can go and returns
 // the value of the board
@@ -335,7 +373,7 @@ int TTT::minimax(char **board, int depth, bool isMax)
                     // Call minimax recursively and choose
                     // the maximum value
                     best = max(best,
-                               minimax(board, depth + 1, !isMax));
+                               minimax(board, depth - 1, !isMax));
 
                     // Undo the move
                     board[i][j] = '_';
@@ -364,7 +402,7 @@ int TTT::minimax(char **board, int depth, bool isMax)
                     // Call minimax recursively and choose
                     // the minimum value
                     best = min(best,
-                               minimax(board, depth + 1, !isMax));
+                               minimax(board, depth - 1, !isMax));
 
                     // Undo the move
                     board[i][j] = '_';
@@ -378,7 +416,7 @@ int TTT::minimax(char **board, int depth, bool isMax)
 // This will return the best possible move for the AI
 Move TTT::findBestMove(char **board)
 {
-    int bestVal = INF;
+    int bestVal = -INF;
     Move bestMove;
     bestMove.row = -1;
     bestMove.col = -1;
@@ -411,7 +449,7 @@ Move TTT::findBestMove(char **board)
 
                 // compute evaluation function for this
                 // move.
-                int moveVal = minimax(board, 0, true);
+                int moveVal = minimax(board, 8, true);
 
                 // Undo the move
                 board[i][j] = '_';
@@ -419,7 +457,7 @@ Move TTT::findBestMove(char **board)
                 // If the value of the current move is
                 // more than the best value, then update
                 // best/
-                if (moveVal < bestVal)
+                if (moveVal > bestVal)
                 {
                     bestMove.row = i;
                     bestMove.col = j;
@@ -454,6 +492,7 @@ bool TTT::startGame(char **board)
     while (finished == false)
     {
 
+        playerMove(board);
         AImakeMove(board);
         for (char i = 0; i < boardSize; i++)
         {
@@ -464,7 +503,6 @@ bool TTT::startGame(char **board)
             }
             cout << "}\n";
         }
-        playerMove(board);
     }
 }
 
