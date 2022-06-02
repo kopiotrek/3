@@ -33,7 +33,7 @@ public:
     bool check_vertical(char **board,char symbol);
     bool check_win(char **board,char symbol);
     bool check_diagonal(char **board, char symbol);
-    bool checkArrays(char *win, char *diagonal, int j);
+    bool checkArrays(char symbol, char *diagonal, int j);
     TTT(int new_boardSize) { boardSize = new_boardSize; }
     TTT();
 };
