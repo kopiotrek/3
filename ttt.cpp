@@ -81,24 +81,24 @@ int TTT::evaluate(char **b)
 
 int TTT::calculate_score(char **board)
 {
-    //     for (char i = 0; i < boardSize; i++)
-    //     {
-    //         cout << "{";
-    //         for (char j = 0; j < boardSize; j++)
-    //         {
-    //             cout << " |" << board[i][j] << "| ";
-    //         }
-    //         cout << "}\n";
-    //     }
-    //     cout << "\n________________________________\n";
-    int tmpBoard[boardSize][boardSize];
     for (char i = 0; i < boardSize; i++)
     {
+        cout << "{";
         for (char j = 0; j < boardSize; j++)
         {
-            tmpBoard[i][j] = board[i][j];
+            cout << " |" << board[i][j] << "| ";
         }
+        cout << "}\n";
     }
+    cout << "\n________________________________\n";
+    // int board[boardSize][boardSize];
+    // for (char i = 0; i < boardSize; i++)
+    // {
+    //     for (char j = 0; j < boardSize; j++)
+    //     {
+    //         board[i][j] = board[i][j];
+    //     }
+    // }
     int score = 0;
     int temp = 0;
     int i, j;
@@ -190,12 +190,14 @@ bool TTT::check_horizontal(char **board, char symbol)
     return false;
 }
 
-bool TTT::check_win(char **board, char symbol)
+bool TTT::check_win(char **board, bool isMax)
 {
-    // if (check_horizontal(board, symbol) || check_vertical(board, symbol) || check_diagonal(board, symbol))
-    //     return true;
-    // else
-    //     return false;
+    char symbol;
+    if (isMax)
+        symbol = opponent;
+    else
+        symbol = player;
+    // DZIAŁA DOBRZE
     if (check_horizontal(board, symbol))
         return true;
     if (check_vertical(board, symbol))
@@ -231,7 +233,7 @@ bool TTT::check_vertical(char **board, char symbol)
 
 bool TTT::checkArrays(char symbol, char *diagonal, int j)
 {
-    for (int i = j; i < j+rowWinLength; i++)
+    for (int i = j; i < j + rowWinLength; i++)
     {
         if (!(symbol == diagonal[i]))
             return false;
@@ -319,20 +321,24 @@ bool TTT::check_diagonal(char **board, char symbol)
                 return true;
         }
     }
+    return false;
 }
 
 // This is the minimax function. It considers all
 // the possible ways the game can go and returns
 // the value of the board
-int TTT::minimax(char **board, int depth, bool isMax)
+int TTT::minimax(char **board, int depth, bool isMax, int a, int b)
 {
-    if (check_win(board, player))
-        return -pow(10, 8);
-    if (check_win(board, opponent))
-        return pow(10, 8);
+    if (check_win(board, isMax))
+    {
+        if (isMax == true)
+            return pow(10, 8);
+        else
+            return -pow(10, 8);
+    }
 
     // int score = evaluate(board);
-    int score = calculate_score(board);
+
     // If Maximizer has won the game return his/her
     // evaluated score
     // if (score == 10)
@@ -345,70 +351,133 @@ int TTT::minimax(char **board, int depth, bool isMax)
 
     // // If there are no more moves and no winner then
     // // it is a tie
-    if (isMovesLeft(board) == false || depth == -1)
+    if (isMovesLeft(board) == false || depth == 0)
     {
-        return calculate_score(board);
+        if (isMax)
+            return calculate_score(board);
+        else
+            return -calculate_score(board);
     }
     // else
     //     return score;
-
-    // If this maximizer's move
+    char symbol;
     if (isMax)
+        symbol = opponent;
+    else
+        symbol = player;
+    int best_score = 0;
+    int m=0;
+    if (symbol == player)
     {
-        int best = -INF;
-
-        // Traverse all cells
-        for (int i = 0; i < boardSize; i++)
-        {
-            for (int j = 0; j < boardSize; j++)
-            {
-                // Check if cell is empty
-                if (board[i][j] == '_')
-                {
-                    // Make the move
-                    board[i][j] = player;
-
-                    // Call minimax recursively and choose
-                    // the maximum value
-                    best = max(best,
-                               minimax(board, depth - 1, !isMax));
-
-                    // Undo the move
-                    board[i][j] = '_';
-                }
-            }
-        }
-        return best;
+        symbol = opponent;
+        best_score = -INF;
     }
-
-    // If this minimizer's move
     else
     {
-        int best = INF;
-
-        // Traverse all cells
-        for (int i = 0; i < boardSize; i++)
+        symbol = player;
+        best_score = INF;
+    }
+    for (int i = 0; i < boardSize; i++)
+    {
+        for (int j = 0; j < boardSize; j++)
         {
-            for (int j = 0; j < boardSize; j++)
+            if (board[i][j] == '_')
             {
-                // Check if cell is empty
-                if (board[i][j] == '_')
+                if (symbol == opponent)
                 {
-                    // Make the move
-                    board[i][j] = opponent;
-
-                    // Call minimax recursively and choose
-                    // the minimum value
-                    best = min(best,
-                               minimax(board, depth - 1, !isMax));
-
-                    // Undo the move
+                    board[i][j] = symbol;
+                    m = minimax(board, depth - 1, isMax, a, b);
+                    if (best_score < m)
+                        best_score = m;
+                    if (a < best_score)
+                        a = best_score;
                     board[i][j] = '_';
+                    if (a >= b)
+                        return best_score;
+                }
+                else
+                {
+                    board[i][j] = symbol;
+                    m = minimax(board, depth - 1, !isMax, a, b);
+                    if (best_score > m)
+                        best_score = m;
+                    if (b > best_score)
+                        b = best_score;
+                    board[i][j] = '_';
+                    if (a >= b)
+                        return best_score;
                 }
             }
         }
-        return best;
     }
+    return best_score;
+    // // If this maximizer's move
+    // if (isMax)
+    // {
+    //     int best = INF;
+
+    //     // Traverse all cells
+    //     for (int i = 0; i < boardSize; i++)
+    //     {
+    //         for (int j = 0; j < boardSize; j++)
+    //         {
+    //             // Check if cell is empty
+    //             if (board[i][j] == '_')
+    //             {
+    //                 // Make the move
+    //                 board[i][j] = player;
+
+    //                 // Call minimax recursively and choose
+    //                 // the maximum value
+    //                 int result = minimax(board, depth - 1, !isMax, alpha, beta);
+    //                 if (best > result)
+    //                     best = result;
+
+    //                 if (beta > best)
+    //                     beta = best;
+    //                 // Undo the move
+    //                 board[i][j] = '_';
+    //                 if (alpha >= beta)
+    //                     return best;
+    //             }
+    //         }
+    //     }
+    //     return best;
+    // }
+
+    // // If this minimizer's move
+    // else
+    // {
+    //     int best = -INF;
+
+    //     // Traverse all cells
+    //     for (int i = 0; i < boardSize; i++)
+    //     {
+    //         for (int j = 0; j < boardSize; j++)
+    //         {
+    //             // Check if cell is empty
+    //             if (board[i][j] == '_')
+    //             {
+    //                 // Make the move
+    //                 board[i][j] = opponent;
+
+    //                 // Call minimax recursively and choose
+    //                 // the minimum value
+    //                 int result = minimax(board, depth - 1, isMax, alpha, beta);
+    //                 if (best < result)
+    //                     best = result;
+    //                 if (alpha < best)
+    //                     alpha = best;
+
+    //                 // Undo the move
+    //                 board[i][j] = '_';
+    //                 if (alpha >= beta)
+    //                     return best;
+    //             }
+    //         }
+    //     }
+    //     return best;
+    // }
 }
 
 // This will return the best possible move for the AI
@@ -447,7 +516,7 @@ Move TTT::findBestMove(char **board)
 
                 // compute evaluation function for this
                 // move.
-                int moveVal = minimax(board, 1, true);
+                int moveVal = minimax(board, 5, true, -INF, INF);
 
                 // Undo the move
                 board[i][j] = '_';
@@ -491,6 +560,8 @@ bool TTT::startGame(char **board)
     {
 
         playerMove(board);
+        if (check_win(board, false) == true || isMovesLeft(board) == false)
+            finished = true;
         AImakeMove(board);
         for (char i = 0; i < boardSize; i++)
         {
@@ -501,6 +572,8 @@ bool TTT::startGame(char **board)
             }
             cout << "}\n";
         }
+        if (check_win(board, true) == true || isMovesLeft(board) == false)
+            finished = true;
     }
 }
 

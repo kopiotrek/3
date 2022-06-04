@@ -6,7 +6,7 @@
 #include <cmath>
 using namespace std;
 
-#define INF 2147483647
+#define INF 2137483647
 
 struct Move
 {
@@ -23,7 +23,7 @@ class TTT
 public:
     bool isMovesLeft(char **board);
     int evaluate(char **b);
-    int minimax(char **board, int depth, bool isMax);
+    int minimax(char **board, int depth, bool isMax, int alpha, int beta);
     Move findBestMove(char **board);
     bool AImakeMove(char **board);
     bool startGame(char **board);
@@ -31,7 +31,7 @@ public:
     int calculate_score(char **board);
     bool check_horizontal(char **board,char symbol);
     bool check_vertical(char **board,char symbol);
-    bool check_win(char **board,char symbol);
+    bool check_win(char **board,bool isMax);
     bool check_diagonal(char **board, char symbol);
     bool checkArrays(char symbol, char *diagonal, int j);
     TTT(int new_boardSize) { boardSize = new_boardSize; }
