@@ -2,37 +2,37 @@
 // Driver code
 int main()
 {
-    int size = 3;
+    int size;
+    int rowWinLength; 
+    
+    cout << "\n Podaj wielkość planszy:\n";
+    cin >> size;
+    if (size < 3)
+    {
+        cout << "Za mała plansza, ustawiono wielkość 3";
+        size = 3;
+    }
+    cout << "\n Podaj długość rzędu potrzebnego do wygranej:\n";
+    cin >> rowWinLength;
+    if (rowWinLength < 3 || rowWinLength > size)
+    {
+        cout << "Zła długość, ustawiono " << size << ".";
+        rowWinLength = size;
+    }
     char **board;
     board = new char *[size];
 
     for (char i = 0; i < size; i++)
         board[i] = new char[size];
-
-    // char new_board[3][3] =
-    //     {
-    //         {'x', 'o', 'x'},
-    //         {'o', 'o', 'x'},
-    //         {'_', '_', '_'}};
-
-    char new_board[3][3] =
-        {
-            {'_', '_', '_'},
-            {'_', '_', '_'},
-            {'_', '_', '_'}};
-
-
     for (char i = 0; i < size; i++)
     {
         for (char j = 0; j < size; j++)
         {
-            board[i][j] = new_board[i][j];
+            board[i][j] = '_';
         }
     }
 
-
-
-    TTT game(size);
+    TTT game(size, rowWinLength);
     // Move bestMove = game.findBestMove(board);
 
     // printf("The Optimal Move is :\n");
