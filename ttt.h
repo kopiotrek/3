@@ -26,7 +26,7 @@ public:
     int minimax(char **board, int depth, char symbol, int alpha, int beta);
     Move findBestMove(char **board);
     bool AImakeMove(char **board);
-    bool startGame(char **board);
+    int startGame(char **board);
     void playerMove(char **board);
     int calculate_score(char **board);
     bool check_horizontal(char **board, char symbol);
@@ -34,6 +34,7 @@ public:
     bool check_win(char **board, char symbol);
     bool check_diagonal(char **board, char symbol);
     bool checkArrays(char symbol, char *diagonal, int j);
+    void showBoard(char **board);
     TTT(int new_boardSize, int new_rowWinLength)
     {
         boardSize = new_boardSize;

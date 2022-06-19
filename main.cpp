@@ -3,8 +3,8 @@
 int main()
 {
     int size;
-    int rowWinLength; 
-    
+    int rowWinLength;
+
     cout << "\n Podaj wielkość planszy:\n";
     cin >> size;
     if (size < 3)
@@ -39,6 +39,14 @@ int main()
     // printf("ROW: %d COL: %d\n\n", bestMove.row+1,
     //        bestMove.col+1);
 
-    game.startGame(board);
+    int winner = game.startGame(board);
+    if (winner == 2)
+        cout << "\nWygrał komputer, następnym razem pójdzie lepiej!\n";
+    if (winner == 1)
+        cout << "\nGratulacje! AI pokonane!\n";
+    if (winner == -1)
+        cout << "\nRemis\n";
+    cout << "\n\n\n Finalny stan gry:\n\n";
+    game.showBoard(board);
     return 0;
 }

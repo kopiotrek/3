@@ -16,8 +16,7 @@ bool TTT::isMovesLeft(char **board)
     return false;
 }
 
-// This is the evaluation function as discussed
-// in the previous article ( http://goo.gl/sJgv68 )
+// This is the evaluation function
 int TTT::evaluate(char **b)
 {
     // for (char i = 0; i < boardSize; i++)
@@ -537,8 +536,8 @@ Move TTT::findBestMove(char **board)
         }
     }
 
-    printf("The value of the best Move is : %d\n\n",
-           bestVal);
+    // printf("The value of the best Move is : %d\n\n",
+    //        bestVal);
 
     return bestMove;
 }
@@ -556,15 +555,31 @@ bool TTT::AImakeMove(char **board)
         return false;
 }
 
-bool TTT::startGame(char **board)
+void TTT::showBoard(char **board)
 {
-    bool finished = false;
-    while (finished == false)
+    for (char i = 0; i < boardSize; i++)
+    {
+        cout << "{";
+        for (char j = 0; j < boardSize; j++)
+        {
+            cout << " |" << board[i][j] << "| ";
+        }
+        cout << "}\n";
+    }
+}
+
+int TTT::startGame(char **board)
+{
+    int finished = 0;
+    while (finished == 0)
     {
 
         playerMove(board);
+        if (check_win(board, player) == false && isMovesLeft(board) == false && check_win(board, opponent) == false)
+            return finished = -1;
         if (check_win(board, player) == true || isMovesLeft(board) == false)
-            finished = true;
+            return finished = 1;
+
         AImakeMove(board);
         for (char i = 0; i < boardSize; i++)
         {
@@ -576,7 +591,7 @@ bool TTT::startGame(char **board)
             cout << "}\n";
         }
         if (check_win(board, opponent) == true || isMovesLeft(board) == false)
-            finished = true;
+            return finished = 2;
     }
 }
 
