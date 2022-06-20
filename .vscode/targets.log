@@ -7,7 +7,7 @@ make all -f /home/pk/Documents/PAMSI/3/makefile -C /home/pk/Documents/PAMSI/3/ -
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jun 17 10:59:47 2022
+# Make data base, printed on Mon Jun 20 17:30:36 2022
 
 # Variables
 
@@ -48,7 +48,7 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 # environment
 _ = /usr/share/code/code
 # environment
-JOURNAL_STREAM = 8:54382
+JOURNAL_STREAM = 8:51002
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile (from '/home/pk/Documents/PAMSI/3/makefile', line 1)
@@ -68,7 +68,7 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-MANAGERPID = 1972
+MANAGERPID = 1971
 # automatic
 @F = $(notdir $@)
 # environment
@@ -92,7 +92,7 @@ GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-SESSION_MANAGER = local/ejmi:@/tmp/.ICE-unix/2196,unix/ejmi:/tmp/.ICE-unix/2196
+SESSION_MANAGER = local/ejmi:@/tmp/.ICE-unix/2200,unix/ejmi:/tmp/.ICE-unix/2200
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -102,7 +102,7 @@ VSCODE_LOG_STACK = false
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = 02fc96d749e44bae9fd1de3f457d01df
+INVOCATION_ID = 366d1ad6bd324061aaf0b0ff75099a0b
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -114,7 +114,7 @@ ROS_DISTRO = foxy
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2695
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2704
 # automatic
 %F = $(notdir $%)
 # environment
@@ -126,7 +126,7 @@ PWD = /home/pk/Documents/PAMSI/3
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 2159
+SSH_AGENT_PID = 2158
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -170,7 +170,7 @@ SHLVL = 0
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-1d8b8de5-7702-4c28-95f9-e2db69aee5c8.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-76c8ae30-3877-49b4-8684-c735aea8203f.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -242,7 +242,7 @@ LC_ADDRESS = pl_PL.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 2695
+VSCODE_PID = 2704
 # variable set hash-table stats:
 # Load=116/1024=11%, Rehash=0, Collisions=22/141=16%
 
@@ -285,6 +285,9 @@ main.cpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+ 
+make: *** No rule to make target 'all'.  Stop.
+
 
 clean:
 #  Implicit rule search has not been done.
@@ -314,9 +317,6 @@ output: main.o ttt.o
 #  recipe to execute (from '/home/pk/Documents/PAMSI/3/makefile', line 2):
 	g++ main.o ttt.o -g -o main.out
 
- 
-make: *** No rule to make target 'all'.  Stop.
-
 # Not a target:
 /home/pk/Documents/PAMSI/3/makefile:
 #  Implicit rule search has been done.
@@ -338,7 +338,7 @@ make: *** No rule to make target 'all'.  Stop.
 # strcache performance: lookups = 22 / hit rate = 40%
 # hash-table stats:
 # Load=13/8192=0%, Rehash=0, Collisions=0/22=0%
-# Finished Make data base on Fri Jun 17 10:59:47 2022
+# Finished Make data base on Mon Jun 20 17:30:36 2022
 
 # make: Leaving directory '/home/pk/Documents/PAMSI/3'
  

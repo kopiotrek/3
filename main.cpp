@@ -9,14 +9,14 @@ int main()
     cin >> size;
     if (size < 3)
     {
-        cout << "Za mała plansza, ustawiono wielkość 3";
+        cout << "Za mała plansza, ustawiono wielkość 3\n";
         size = 3;
     }
     cout << "\n Podaj długość rzędu potrzebnego do wygranej:\n";
     cin >> rowWinLength;
     if (rowWinLength < 3 || rowWinLength > size)
     {
-        cout << "Zła długość, ustawiono " << size << ".";
+        cout << "Zła długość, ustawiono " << size << ".\n";
         rowWinLength = size;
     }
     char **board;
